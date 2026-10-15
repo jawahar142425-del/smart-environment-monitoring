@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{margin:0}</style></head><body>
+<title>Smart Environmental Monitoring System</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: project report page. Title block, four-part flow, then Part 1 in detail. */
+:root {
+  --bg: #eef3f1;
+  --surface: #fafcfb;
+  --ink: #12201e;
+  --muted: #566866;
+  --line: #d0dad7;
+  --accent: #0f766e;
+  --good: #197a49;
+  --mod: #a86400;
+  --poor: #c2410c;
+  --haz: #c0262d;
+  --font-ui: "Archivo", system-ui, sans-serif;
+  --font-num: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1615; --surface: #132120; --ink: #e3eeeb; --muted: #94a9a4; --line: #274340;
+    --accent: #3cc4b3; --good: #4cc38a; --mod: #e2b24c; --poor: #f28c52; --haz: #f4675e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1615; --surface: #132120; --ink: #e3eeeb; --muted: #94a9a4; --line: #274340;
+  --accent: #3cc4b3; --good: #4cc38a; --mod: #e2b24c; --poor: #f28c52; --haz: #f4675e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 16px; line-height: 1.6; padding-inline: 16px; }
+.wrap { max-width: 980px; margin-inline: auto; }
+h1, h2, h3, p, ul, ol { margin: 0; }
+h1 { font-size: clamp(2rem, 5.5vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.08; text-wrap: balance; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 800; letter-spacing: -0.01em; margin-bottom: 12px; text-wrap: balance; }
+h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 4px; }
+p { max-width: 68ch; margin-bottom: 12px; }
+a { color: var(--accent); }
+code { font-family: var(--font-num); font-size: 0.86em; }
+.mono { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+nav { display: flex; flex-wrap: wrap; gap: 4px 18px; padding-block: 14px; border-bottom: 1px solid var(--line); font-size: 0.88rem; }
+nav b { margin-right: auto; }
+nav a { color: var(--muted); text-decoration: none; }
+nav a:hover { color: var(--ink); text-decoration: underline; }
+
+.title { padding-block: 44px 28px; display: grid; gap: 14px; }
+.eyebrow { font-family: var(--font-num); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.lead { color: var(--muted); font-size: 1.1rem; }
+.byline { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.92rem; }
+.byline span { color: var(--muted); }
+
+section { padding-block: 36px; border-top: 1px solid var(--line); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 14px; }
+.cols p { color: var(--muted); font-size: 0.94rem; margin: 0; }
+
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; overflow-x: auto; margin-top: 10px; }
+.diagram svg { display: block; min-width: 700px; width: 100%; height: auto; }
+.diagram text { font-family: var(--font-ui); font-size: 13px; fill: var(--ink); }
+.diagram .sub { font-family: var(--font-num); font-size: 10.5px; fill: var(--muted); }
+.diagram rect.n { fill: var(--bg); stroke: var(--line); stroke-width: 1.5; }
+.diagram rect.me { fill: var(--bg); stroke: var(--accent); stroke-width: 2.5; }
+.diagram path { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+.diagram polygon { fill: var(--muted); }
+
+.scroll { overflow-x: auto; margin-top: 10px; }
+table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 0.92rem; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--font-num); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; }
+td.num, th.num { text-align: right; font-family: var(--font-num); white-space: nowrap; }
+tr.todo td { color: var(--muted); }
+
+pre { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; overflow-x: auto; margin: 10px 0 0; font-family: var(--font-num); font-size: 0.82rem; line-height: 1.55; }
+.lv { display: inline-block; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.05em; padding: 1px 9px; border-radius: 99px; border: 1px solid currentColor; }
+.lv.g { color: var(--good); } .lv.m { color: var(--mod); } .lv.p { color: var(--poor); } .lv.h { color: var(--haz); }
+
+figure { margin: 14px 0 0; }
+figure img { display: block; max-width: 100%; border: 1px solid var(--line); border-radius: 10px; }
+figcaption { font-size: 0.84rem; color: var(--muted); margin-top: 6px; }
+.ph { border: 1px dashed var(--line); border-radius: 10px; padding: 18px; color: var(--muted); font-size: 0.9rem; }
+.note { border-left: 4px solid var(--mod); background: var(--surface); padding: 10px 14px; border-radius: 0 8px 8px 0; margin-top: 12px; font-size: 0.92rem; }
+.team { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 12px; }
+.team .me { border-color: var(--accent); }
+.team small { display: block; color: var(--muted); font-size: 0.84rem; }
+footer { border-top: 1px solid var(--line); padding-block: 24px 40px; color: var(--muted); font-size: 0.88rem; }
+</style>
+
+<div class="wrap">
+  <nav>
+    <b>Smart Environmental Monitoring</b>
+    <a href="#overview">Overview</a><a href="#part1">Part 1</a><a href="#simulation">Simulation</a>
+    <a href="#calibration">Calibration</a><a href="#data">Data format</a><a href="#results">Results</a><a href="#team">Team</a>
+  </nav>
+
+  <header class="title">
+    <p class="eyebrow" style="margin:0">IoT project · 4 parts</p>
+    <h1>Smart Environmental Monitoring &amp; Automated Alert System</h1>
+    <p class="lead">Measure temperature, humidity, air quality and smoke, store the data in the cloud, predict pollution spikes with machine learning, and warn people automatically. This page documents Part 1, the sensing and data acquisition unit.</p>
+    <div class="byline"><b>Part 1: Jawahar S</b><span class="mono">25BIT0343</span><span>Software and simulation only, no physical hardware</span></div>
+  </header>
+
+  <section id="overview">
+    <h2>How the four parts connect</h2>
+    <p>Each part hands its output to the next one. Part 1 produces the readings that every later part depends on.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 860 170" role="img" aria-label="Part 1 sensing sends MQTT JSON to Part 2 cloud, which sends stored readings to Part 3 machine learning, which sends predictions to Part 4 alerts and dashboard.">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><polygon points="0,0 10,5 0,10"/></marker></defs>
+        <rect class="me" x="8" y="30" width="170" height="100" rx="10"/><text x="93" y="62" text-anchor="middle" font-weight="800">Part 1</text><text x="93" y="82" text-anchor="middle">Sensing unit</text><text class="sub" x="93" y="104" text-anchor="middle">ESP32 + 3 sensors</text><text class="sub" x="93" y="119" text-anchor="middle">this page</text>
+        <rect class="n" x="238" y="30" width="170" height="100" rx="10"/><text x="323" y="62" text-anchor="middle" font-weight="800">Part 2</text><text x="323" y="82" text-anchor="middle">Cloud and API</text><text class="sub" x="323" y="104" text-anchor="middle">MQTT/REST · database</text>
+        <rect class="n" x="468" y="30" width="170" height="100" rx="10"/><text x="553" y="62" text-anchor="middle" font-weight="800">Part 3</text><text x="553" y="82" text-anchor="middle">ML prediction</text><text class="sub" x="553" y="104" text-anchor="middle">spikes · anomalies</text>
+        <rect class="n" x="698" y="30" width="154" height="100" rx="10"/><text x="775" y="62" text-anchor="middle" font-weight="800">Part 4</text><text x="775" y="82" text-anchor="middle">Alerts, dashboard</text><text class="sub" x="775" y="104" text-anchor="middle">SMS · email · app</text>
+        <path d="M178 80 H236" marker-end="url(#ar)"/><path d="M408 80 H466" marker-end="url(#ar)"/><path d="M638 80 H696" marker-end="url(#ar)"/>
+        <text class="sub" x="207" y="70" text-anchor="middle">MQTT</text><text class="sub" x="437" y="70" text-anchor="middle">stored</text><text class="sub" x="667" y="70" text-anchor="middle">forecast</text>
+      </svg>
+    </div>
+  </section>
+
+  <section id="part1">
+    <h2>Part 1: sensing and data acquisition</h2>
+    <p>An ESP32 reads three sensors, converts the raw signals into meaningful units, labels the air quality, and publishes one JSON message every 5 seconds over MQTT.</p>
+    <div class="cols">
+      <div class="card"><h3>Measure</h3><p>DHT22 gives temperature and humidity. MQ135 gives a CO₂-equivalent value. MQ-2 gives a smoke value.</p></div>
+      <div class="card"><h3>Calibrate</h3><p>Each MQ sensor is calibrated in clean air to find its reference resistance R0, stored in flash memory.</p></div>
+      <div class="card"><h3>Transmit</h3><p>Readings leave the node as JSON on an MQTT topic, so Parts 2 to 4 can subscribe without knowing about the sensors.</p></div>
+    </div>
+  </section>
+
+  <section id="simulation">
+    <h2>How it runs without hardware</h2>
+    <p>The whole node runs in the Wokwi online simulator. The firmware is the same code that would run on a real ESP32, so moving to hardware later only needs wiring and calibration.</p>
+    <div class="scroll"><table>
+      <tr><th>Sensor</th><th>Simulated by</th><th class="num">ESP32 pin</th><th>Gives</th></tr>
+      <tr><td>DHT22</td><td>Wokwi DHT22 part</td><td class="num">GPIO 4</td><td>Temperature, humidity</td></tr>
+      <tr><td>MQ135</td><td>Potentiometer, 0 to 3.3 V</td><td class="num">GPIO 34</td><td>CO₂-equivalent (ppm)</td></tr>
+      <tr><td>MQ-2</td><td>Potentiometer, 0 to 3.3 V</td><td class="num">GPIO 35</td><td>Smoke (ppm)</td></tr>
+    </table></div>
+    <p style="margin-top:12px">A potentiometer is not a gas sensor, so in the simulator sketch its position is mapped straight to ppm: each quarter of the knob is one air quality level. On real hardware the MQ module outputs up to 5 V, a 10k and 20k divider brings it to 3.3 V for the ESP32, and the full firmware converts it with the resistance curves below.</p>
+    <figure>
+      <img src="part1-jawahar/wokwi_levels.png" alt="Wokwi simulation showing the ESP32, DHT22 and two potentiometers with the serial monitor" onerror="this.parentNode.innerHTML='&lt;div class=&quot;ph&quot;&gt;Screenshot not found. Upload your Wokwi screenshot to part1-jawahar/wokwi_levels.png in the repository.&lt;/div&gt;'">
+      <figcaption>Wokwi simulation: the Serial Monitor shows GOOD, HAZARDOUS, POOR and MODERATE as the MQ135 knob is turned.</figcaption>
+    </figure>
+    <p style="margin-top:12px">For Part 3, <code>tools/generate_sample_data.py</code> produces longer datasets in the same format, including simulated smoke and ventilation events.</p>
+  </section>
+
+  <section id="calibration">
+    <h2>Calibration</h2>
+    <p>MQ sensors change resistance with gas concentration. The firmware converts the analog voltage to a resistance (Rs), then to ppm using the ratio Rs/R0.</p>
+    <pre>Vout = Vadc x 1.5                      undo the 10k/20k divider
+Rs   = RL x (5 - Vout) / Vout          sensor resistance
+MQ135 CO2 ppm = 116.6 x (Rs/R0)^-2.769
+MQ-2 smoke ppm = 3.0e7 x (Rs/R0)^-8.308</pre>
+    <p style="margin-top:12px">R0 is found by sending <code>c</code> in the serial monitor while the sensors are in clean air. The firmware averages 50 samples and saves R0. For MQ135, clean air is taken as 420 ppm. For MQ-2, clean air is Rs/R0 = 9.83 from the datasheet.</p>
+    <div class="note">These formulas and the clean-air calibration are used by the full firmware on real hardware. In the simulator, the knob is mapped directly: 0 to 25% GOOD, 25 to 50% MODERATE, 50 to 75% POOR, 75 to 100% HAZARDOUS. MQ values are estimates for trends and threshold alerts, not laboratory measurements.</div>
+  </section>
+
+  <section id="data">
+    <h2>Data format</h2>
+    <p>Topic <code>envmon/jawahar/node01/data</code>, one message every 5 seconds:</p>
+    <pre>{
+  "device_id": "node01",
+  "timestamp": "2026-10-10 10:00:05",
+  "temperature_c": 29.9,
+  "humidity_pct": 67.2,
+  "mq135_co2_ppm": 442,
+  "mq2_smoke_ppm": 3,
+  "air_quality": "GOOD"
+}</pre>
+    <p style="margin-top:12px">Topic <code>envmon/jawahar/node01/status</code> holds <code>online</code> or <code>offline</code>, set as the MQTT last-will message.</p>
+    <div class="scroll"><table>
+      <tr><th>Air quality</th><th class="num">CO₂-equivalent</th></tr>
+      <tr><td><span class="lv g">GOOD</span></td><td class="num">below 600 ppm</td></tr>
+      <tr><td><span class="lv m">MODERATE</span></td><td class="num">600 to 999 ppm</td></tr>
+      <tr><td><span class="lv p">POOR</span></td><td class="num">1000 to 1999 ppm</td></tr>
+      <tr><td><span class="lv h">HAZARDOUS</span></td><td class="num">2000 ppm and above</td></tr>
+    </table></div>
+  </section>
+
+  <section id="results">
+    <h2>Results and testing</h2>
+    <p>Readings from the Wokwi simulator, with the MQ135 potentiometer at four positions. Smoke stayed at 10 ppm because the MQ-2 potentiometer was not moved. Temperature and humidity were left at the DHT22 defaults.</p>
+    <div class="scroll"><table>
+      <tr><th>Test</th><th>Potentiometer setting</th><th class="num">CO₂ (ppm)</th><th class="num">Smoke (ppm)</th><th>Air quality</th></tr>
+      <tr><td>Clean air</td><td>about 1%</td><td class="num">411</td><td class="num">10</td><td><span class="lv g">GOOD</span></td></tr>
+      <tr><td>Stuffy room</td><td>about 41%</td><td class="num">845</td><td class="num">10</td><td><span class="lv m">MODERATE</span></td></tr>
+      <tr><td>Poor ventilation</td><td>about 64%</td><td class="num">1555</td><td class="num">10</td><td><span class="lv p">POOR</span></td></tr>
+      <tr><td>Very high CO₂</td><td>about 100%</td><td class="num">3000</td><td class="num">10</td><td><span class="lv h">HAZARDOUS</span></td></tr>
+    </table></div>
+    <h3 style="margin-top:16px">Limitations</h3>
+    <p>The sensors are simulated, so the readings show that the data format, the air quality levels and the JSON output work, not how real gas sensors behave. Real MQ sensors also need a 24 to 48 hour burn-in and drift with temperature and humidity.</p>
+  </section>
+
+  <section id="team">
+    <h2>Team</h2>
+    <div class="team">
+      <div class="card me"><h3>Jawahar S</h3><small class="mono">25BIT0343</small><small>Part 1: sensing unit and data acquisition</small></div>
+      <div class="card"><h3>Team member</h3><small class="mono">Reg. no.</small><small>Part 2: cloud and API backend</small></div>
+      <div class="card"><h3>Team member</h3><small class="mono">Reg. no.</small><small>Part 3: ML prediction and anomaly detection</small></div>
+      <div class="card"><h3>Team member</h3><small class="mono">Reg. no.</small><small>Part 4: alerts and dashboard</small></div>
+    </div>
+  </section>
+
+  <footer>Source code, firmware, simulation files and sample data are in the project repository. <a id="repoLink" href="#" hidden>Open repository</a></footer>
+</div>
+<script>
+(function () {
+  var h = location.hostname, a = document.getElementById('repoLink');
+  if (/\.github\.io$/.test(h)) {
+    var repo = location.pathname.split('/')[1];
+    if (repo) { a.href = 'https://github.com/' + h.split('.')[0] + '/' + repo; a.hidden = false; }
+  }
+})();
+</script>
+
+</body></html>
