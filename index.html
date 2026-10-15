@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{margin:0}</style></head><body>
-<title>Smart Environmental Monitoring System</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Smart Environmental Monitoring System</title><style>body{margin:0}</style></head><body>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: project report page. Title block, four-part flow, then Part 1 in detail. */
@@ -130,7 +129,7 @@ footer { border-top: 1px solid var(--line); padding-block: 24px 40px; color: var
 
   <section id="simulation">
     <h2>How it runs without hardware</h2>
-    <p>The whole node runs in the Wokwi online simulator. The firmware is the same code that would run on a real ESP32, so moving to hardware later only needs wiring and calibration.</p>
+    <p>The whole node runs in the Wokwi online simulator. The simulator sketch prints exactly the same JSON as the full ESP32 firmware (which adds Wi-Fi, MQTT and clean-air calibration), so moving to hardware later needs wiring and calibration, and the other parts see the same data format.</p>
     <div class="scroll"><table>
       <tr><th>Sensor</th><th>Simulated by</th><th class="num">ESP32 pin</th><th>Gives</th></tr>
       <tr><td>DHT22</td><td>Wokwi DHT22 part</td><td class="num">GPIO 4</td><td>Temperature, humidity</td></tr>
