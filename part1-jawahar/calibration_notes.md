@@ -44,10 +44,12 @@ To be filled after actual sensor testing.
 
 | Test condition | MQ135 CO2 (ppm) | MQ-2 smoke (ppm) | Temp (C) | Humidity (%) | Air quality |
 |---|---|---|---|---|---|
-| Clean air (outdoors / ventilated) | | | | | |
-| Normal indoor | | | | | |
-| Closed room with people | | | | | |
-| Incense or matchstick smoke near MQ-2 (safe distance) | | | | | |
+| MQ135 knob about 1 % | 411 | 10 | 24.0 | 40.0 | GOOD |
+| MQ135 knob about 41 % | 845 | 10 | 24.0 | 40.0 | MODERATE |
+| MQ135 knob about 64 % | 1555 | 10 | 24.0 | 40.0 | POOR |
+| MQ135 knob about 100 % | 3000 | 10 | 24.0 | 40.0 | HAZARDOUS |
+
+All four levels were produced in the Wokwi simulator. The potentiometers stand in for the gas sensors and are mapped linearly to ppm in the simulation sketch. Real hardware uses the MQ resistance curves in the full firmware.
 
 ## Limitations
 
