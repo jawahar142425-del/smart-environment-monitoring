@@ -1,0 +1,2 @@
+cls
+Invoke-RestMethod http://127.0.0.1:8000/devices/sensor1/stats -Headers @{"X-API-Key"="env-secret-key-2026"}
