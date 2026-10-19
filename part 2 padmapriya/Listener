@@ -1,0 +1,2 @@
+cd C:\Users\Admin\env-monitoring-backend
+python subscriber.py
