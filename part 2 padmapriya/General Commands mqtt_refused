@@ -1,0 +1,2 @@
+docker exec env_mqtt mosquitto_pub -t "env/hacker/telemetry" -m "fake"
+docker logs env_mqtt --tail 5
