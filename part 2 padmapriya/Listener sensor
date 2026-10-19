@@ -1,0 +1,2 @@
+cls
+python sensor_sim.py
