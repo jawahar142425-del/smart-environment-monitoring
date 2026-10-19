@@ -1,0 +1,3 @@
+docker exec env_db psql -U envuser -d envdb -c "CREATE TABLE IF NOT EXISTS readings (id SERIAL PRIMARY KEY, device_id TEXT NOT NULL, temperature REAL, humidity REAL, created_at TIMESTAMPTZ DEFAULT NOW());"
+docker exec env_db psql -U envuser -d envdb -c "CREATE TABLE IF NOT EXISTS alerts (id SERIAL PRIMARY KEY, device_id TEXT, parameter TEXT, value REAL, threshold REAL, message TEXT, acknowledged BOOLEAN DEFAULT FALSE, created_at TIMESTAMPTZ DEFAULT NOW());"
+docker exec env_db psql -U envuser -d envdb -c "\dt"
