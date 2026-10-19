@@ -1,0 +1,2 @@
+cls
+Invoke-RestMethod http://127.0.0.1:8000/alerts -Headers @{"X-API-Key"="env-secret-key-2026"} | Format-Table id,device_id,parameter,value,threshold,acknowledged
