@@ -1,0 +1,3 @@
+cls
+Invoke-RestMethod -Method Patch http://127.0.0.1:8000/alerts/1/ack -Headers @{"X-API-Key"="env-secret-key-2026"}
+Invoke-RestMethod http://127.0.0.1:8000/alerts -Headers @{"X-API-Key"="env-secret-key-2026"} | Format-Table id,parameter,value,acknowledged
